@@ -164,6 +164,14 @@ const mergeProps = (stateProps, dispatchProps, {path, actionIconClassName, actio
           {childrenFolders: 0, childrenFiles: 0}
         )
   const itemStyles = Constants.getItemStyles(pathElements, type, _username)
+  const {
+    showInFileUI,
+    ignoreFolder,
+    saveMedia,
+    shareNative,
+    download,
+    copyPath,
+  } = getRootMenuActionsByPathLevel(pathElements.length, stateProps, dispatchProps, path)
   return {
     type,
     lastModifiedTimestamp: pathItem.lastModifiedTimestamp,
@@ -180,7 +188,13 @@ const mergeProps = (stateProps, dispatchProps, {path, actionIconClassName, actio
     loadFolderList,
     actionIconClassName,
     actionIconFontSize,
-    ...getRootMenuActionsByPathLevel(pathElements.length, stateProps, dispatchProps, path),
+    // menu actions
+    showInFileUI,
+    ignoreFolder,
+    saveMedia,
+    shareNative,
+    download,
+    copyPath,
   }
 }
 
