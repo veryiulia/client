@@ -15,7 +15,7 @@ import {isMobile} from '../../constants/platform'
 import {type TypedState} from '../../util/container'
 import {putActionIfOnPath, navigateAppend} from '../route-tree'
 
-const loadFavorites = (state: TypedState): Promise<any> =>
+const loadFavorites = (state: TypedState) =>
   RPCTypes.apiserverGetWithSessionRpcPromise({
     args: [{key: 'problems', value: '1'}],
     endpoint: 'kbfs/favorite/list',

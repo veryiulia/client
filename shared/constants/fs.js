@@ -3,7 +3,8 @@ import * as I from 'immutable'
 import * as Types from './types/fs'
 import * as RPCTypes from './types/rpc-gen'
 import * as FsGen from '../actions/fs-gen'
-import {isMobile} from './platform'
+import {type TypedState} from '../util/container'
+import {isLinux, isWindows, isMobile} from './platform'
 import uuidv1 from 'uuid/v1'
 import logger from '../logger'
 import {globalColors} from '../styles'
@@ -625,3 +626,11 @@ export const getTlfFromTlfs = (tlfs: Types.Tlfs, tlfType: Types.TlfType, name: s
 
 export const tlfTypeAndNameToPath = (tlfType: Types.TlfType, name: string): Types.Path =>
   Types.stringToPath(`/keybase/${tlfType}/${name}`)
+
+export const kbfsEnabled = (state: TypedState) =>
+  !isMobile &&
+  (isLinux ||
+    (state.fs.fuseStatus &&
+      state.fs.fuseStatus.kextStarted &&
+      // on Windows, check that the driver is up to date too
+      !(isWindows && state.fs.fuseStatus.installAction === 2)))

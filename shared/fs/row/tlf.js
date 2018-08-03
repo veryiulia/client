@@ -47,13 +47,13 @@ const Tlf = (props: TlfProps) => (
       <Box2 direction="horizontal" fullWidth={true}>
         <Text
           type={props.itemStyles.textType}
-          style={{...rowStyles.rowText, color: props.itemStyles.textColor}}
+          style={Styles.collapseStyles([rowStyles.rowText, {color: props.itemStyles.textColor}])}
           lineClamp={Styles.isMobile ? 1 : undefined}
         >
           {props.name}
         </Text>
       </Box2>
-      {!props.resetParticipants || props.resetParticipants.length === 0 ? null : (
+      {props.resetParticipants.length !== 0 && (
         <PathItemInfo resetParticipants={props.resetParticipants} isUserReset={props.isUserReset} />
       )}
     </Box>

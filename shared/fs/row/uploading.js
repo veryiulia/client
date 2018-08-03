@@ -39,7 +39,7 @@ const Uploading = (props: UploadingProps) => (
     <Box key="main" style={rowStyles.itemBox}>
       <Text
         type={props.itemStyles.textType}
-        style={{...rowStyles.rowText_30, color: props.itemStyles.textColor}}
+        style={Styles.collapseStyles([rowStyles.rowText_30, {color: props.itemStyles.textColor}])}
         lineClamp={Styles.isMobile ? 1 : undefined}
       >
         {props.name}

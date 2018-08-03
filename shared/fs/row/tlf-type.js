@@ -35,7 +35,7 @@ const TlfType = (props: TlfTypeProps) => (
       <Box2 direction="horizontal" fullWidth={true}>
         <Text
           type={props.itemStyles.textType}
-          style={{...rowStyles.rowText, color: props.itemStyles.textColor}}
+          style={Styles.collapseStyles([rowStyles.rowText, {color: props.itemStyles.textColor}])}
           lineClamp={Styles.isMobile ? 1 : undefined}
         >
           {props.name}
