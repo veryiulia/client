@@ -15,17 +15,19 @@ import {isMobile} from '../../constants/platform'
 import {type TypedState} from '../../util/container'
 import {putActionIfOnPath, navigateAppend} from '../route-tree'
 
-const loadFavorites = (state: TypedState) =>
+const loadFavorites = (state: TypedState): Promise<any> =>
   RPCTypes.apiserverGetWithSessionRpcPromise({
     args: [{key: 'problems', value: '1'}],
     endpoint: 'kbfs/favorite/list',
-  }).then(results =>
-    Constants.createFavoritesLoadedFromJSONResults(
-      results && results.body,
-      state.config.username || '',
-      state.config.loggedIn
+  })
+    .then(results =>
+      Constants.createFavoritesLoadedFromJSONResults(
+        results && results.body,
+        state.config.username || '',
+        state.config.loggedIn
+      )
     )
-  )
+    .catch(e => logger.warn('Error listing favorites:', e))
 
 const direntToMetadata = (d: RPCTypes.Dirent) => ({
   name: d.name.split('/').pop(),

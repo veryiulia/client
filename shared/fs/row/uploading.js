@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import * as Types from '../../constants/types/fs'
-import {globalColors, isMobile} from '../../styles'
+import * as Styles from '../../styles'
 import {rowStyles} from './common'
 import {Box, Icon, Meta, Text} from '../../common-adapters'
 import PathItemIcon from '../common/path-item-icon'
@@ -40,13 +40,13 @@ const Uploading = (props: UploadingProps) => (
       <Text
         type={props.itemStyles.textType}
         style={{...rowStyles.rowText_30, color: props.itemStyles.textColor}}
-        lineClamp={isMobile ? 1 : undefined}
+        lineClamp={Styles.isMobile ? 1 : undefined}
       >
         {props.name}
       </Text>
       <Meta
         title={getStatusText(props)}
-        backgroundColor={props.error ? globalColors.red : globalColors.blue}
+        backgroundColor={props.error ? Styles.globalColors.red : Styles.globalColors.blue}
       />
     </Box>
   </Box>

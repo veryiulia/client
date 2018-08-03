@@ -36,13 +36,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const mergeProps = (stateProps, {_onReAddToTeam, _onOpenWithoutResetUsers, onViewProfile}, {path}) => {
   const resetParticipants = stateProps._tlf.resetParticipants.map(i => i.username)
   return {
-    isUserReset: resetParticipants.includes(stateProps._username),
+    isUserReset: stateProps._username && resetParticipants.includes(stateProps._username),
     onReAddToTeam: (username: string) => () =>
       stateProps._tlf.teamId ? _onReAddToTeam(stateProps._tlf.teamId, username) : undefined,
     onOpenWithoutResetUsers: () =>
       _onOpenWithoutResetUsers(
         path,
-        resetParticipants.reduce((acc, i) => {
+        resetParticipants.reduce((acc, i: string) => {
           acc[i] = true
           return acc
         }, {})

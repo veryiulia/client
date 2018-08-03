@@ -34,7 +34,6 @@ const pathItemMetadataDefault = {
   lastModifiedTimestamp: 0,
   size: 0,
   lastWriter: {uid: '', username: ''},
-  progress: 'pending',
   badgeCount: 0,
   writable: false,
   tlfMeta: undefined,
@@ -43,9 +42,7 @@ const pathItemMetadataDefault = {
 export const makeFolder: I.RecordFactory<Types._FolderPathItem> = I.Record({
   ...pathItemMetadataDefault,
   children: I.Set(),
-  favoriteChildren: I.Set(),
-  resetParticipants: [],
-  teamID: undefined,
+  progress: 'pending',
   type: 'folder',
 })
 
@@ -75,10 +72,10 @@ export const makeTlf: I.RecordFactory<Types._Tlf> = I.Record({
   isIgnored: false,
   isNew: false,
   needsRekey: false,
-  resetParticipants: [],
+  resetParticipants: I.List(),
   teamId: '',
-  waitingForParticipantUnlock: [],
-  youCanUnlock: [],
+  waitingForParticipantUnlock: I.List(),
+  youCanUnlock: I.List(),
 })
 
 export const makeSortSetting: I.RecordFactory<Types._SortSetting> = I.Record({
@@ -410,7 +407,7 @@ export const createFavoritesLoadedFromJSONResults = (
   txt: string = '',
   username: string,
   loggedIn: boolean
-) => {
+): ?FsGen.FavoritesLoadedPayload => {
   const favoritesResult = ((txt: string): ?FavoritesListResult => {
     try {
       return JSON.parse(txt)
@@ -451,20 +448,19 @@ export const createFavoritesLoadedFromJSONResults = (
         isIgnored,
         isNew,
         needsRekey,
-        resetParticipants: reset_members || [],
+        resetParticipants: I.List(reset_members || []),
         teamId: team_id || '',
-        waitingForParticipantUnlock,
-        youCanUnlock,
+        waitingForParticipantUnlock: I.List(waitingForParticipantUnlock || []),
+        youCanUnlock: I.List(youCanUnlock || []),
       })
-      return {
-        private:
-          folderType === RPCTypes.favoriteFolderType.private
-            ? {...tlfs.private, [tlf.name]: tlf}
-            : tlfs.private,
-        public:
-          folderType === RPCTypes.favoriteFolderType.public ? {...tlfs.public, [tlf.name]: tlf} : tlfs.public,
-        team: folderType === RPCTypes.favoriteFolderType.team ? {...tlfs.team, [tlf.name]: tlf} : tlfs.team,
+      if (folderType === RPCTypes.favoriteFolderType.private) {
+        tlfs.private[tlf.name] = tlf
+      } else if (folderType === RPCTypes.favoriteFolderType.public) {
+        tlfs.public[tlf.name] = tlf
+      } else if (folderType === RPCTypes.favoriteFolderType.team) {
+        tlfs.team[tlf.name] = tlf
       }
+      return tlfs
     },
     {private: {}, public: {}, team: {}}
   )

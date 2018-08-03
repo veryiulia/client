@@ -14,7 +14,7 @@ type OwnProps = $Diff<Types.TlfRowItem, {rowType: 'tlf'}> & {
 const mapStateToProps = (state: TypedState, {tlfType, name}: OwnProps) => {
   const _tlf = Constants.getTlfFromTlfs(state.fs.tlfs, tlfType, name)
   const _kbfsEnabled = StateMappers.mapStateToKBFSEnabled(state)
-  const _username = state.config.username || undefined
+  const _username = state.config.username
   return {
     _username,
     _kbfsEnabled,
@@ -34,12 +34,13 @@ const mapDispatchToProps = (dispatch: Dispatch, {routePath}: OwnProps) => {
 }
 
 const mergeProps = (stateProps, dispatchProps, {tlfType, name}) => {
-  const {isNew, isIgnored, needsRekey, resetParticipants} = stateProps._tlf
+  const {isNew, isIgnored, needsRekey} = stateProps._tlf
+  const resetParticipants = stateProps._tlf.resetParticipants.map(i => i.username)
   const path = Constants.tlfTypeAndNameToPath(tlfType, name)
   return {
     isIgnored,
     isNew,
-    isUserReset: resetParticipants.includes(stateProps._username),
+    isUserReset: !!stateProps._username && resetParticipants.includes(stateProps._username),
     itemStyles: Constants.getItemStyles(Types.getPathElements(path), 'folder', stateProps._username),
     name,
     needsRekey,

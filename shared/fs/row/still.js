@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import * as Types from '../../constants/types/fs'
-import {globalColors, globalMargins, isMobile} from '../../styles'
+import * as Styles from '../../styles'
 import {rowStyles, StillCommon, type StillCommonProps} from './common'
 import {Box, Box2, Icon, Meta, Text} from '../../common-adapters'
 import PathItemInfo from '../common/path-item-info'
@@ -44,15 +44,15 @@ const Still = (props: StillProps) => (
         <Text
           type={props.itemStyles.textType}
           style={{...rowStyles.rowText, color: props.itemStyles.textColor}}
-          lineClamp={isMobile ? 1 : undefined}
+          lineClamp={Styles.isMobile ? 1 : undefined}
         >
           {props.name}
         </Text>
         {props.isEmpty && (
           <Meta
             title="empty"
-            backgroundColor={globalColors.grey}
-            style={{marginLeft: globalMargins.tiny, marginTop: globalMargins.xxtiny}}
+            backgroundColor={Styles.globalColors.grey}
+            style={{marginLeft: Styles.globalMargins.tiny, marginTop: Styles.globalMargins.xxtiny}}
           />
         )}
       </Box2>
