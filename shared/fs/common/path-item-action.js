@@ -3,6 +3,7 @@ import * as React from 'react'
 import * as Types from '../../constants/types/fs'
 import * as Constants from '../../constants/fs'
 import {globalStyles, globalColors, globalMargins, isMobile, platformStyles} from '../../styles'
+import {fileUIName} from '../../constants/platform'
 import {Box, ClickableBox, Icon, Text, FloatingMenu, type OverlayParentProps} from '../../common-adapters'
 import {type MenuItem} from '../../common-adapters/floating-menu/menu-layout'
 import PathItemIcon from '../common/path-item-icon'
@@ -22,7 +23,69 @@ type Props = {
   actionIconClassName?: string,
   actionIconFontSize?: number,
   pathElements: Array<string>,
-  menuItems: Array<MenuItem | 'Divider' | null>,
+  // Menu items
+  showInFileUI?: () => void,
+  ignoreFolder?: () => void,
+  saveMedia?: () => void,
+  shareNative?: () => void,
+  download?: () => void,
+  copyPath?: () => void,
+}
+
+const makeMenuItems = (props: Props) => {
+  console.log({props})
+  return [
+    ...(props.showInFileUI
+      ? [
+          {
+            title: 'Show in ' + fileUIName,
+            onClick: props.showInFileUI,
+          },
+        ]
+      : []),
+    ...(props.ignoreFolder
+      ? [
+          {
+            title: 'Ignore this folder',
+            onClick: props.ignoreFolder,
+            subTitle: 'The folder will no longer appear in your folders list.',
+            danger: true,
+          },
+        ]
+      : []),
+    ...(props.saveMedia
+      ? [
+          {
+            title: 'Save',
+            onClick: props.saveMedia,
+          },
+        ]
+      : []),
+    ...(props.shareNative
+      ? [
+          {
+            title: 'Send to other app',
+            onClick: props.shareNative,
+          },
+        ]
+      : []),
+    ...(props.download
+      ? [
+          {
+            title: 'Download a copy',
+            onClick: props.download,
+          },
+        ]
+      : []),
+    ...(props.copyPath
+      ? [
+          {
+            title: 'Copy path',
+            onClick: props.copyPath,
+          },
+        ]
+      : []),
+  ]
 }
 
 const PathItemActionHeader = (props: Props) => (
@@ -75,7 +138,7 @@ const PathItemAction = (props: Props & OverlayParentProps) => (
         title: 'unused',
         view: <PathItemActionHeader {...props} />,
       }}
-      items={props.menuItems}
+      items={makeMenuItems(props)}
     />
   </Box>
 )

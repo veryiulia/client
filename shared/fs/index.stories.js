@@ -413,6 +413,7 @@ const load = () => {
         <WrapRow key="17">
           <TlfTypeRow
             name="private"
+            path={Types.stringToPath('/keybase/private')}
             itemStyles={folderItemStyles}
             badgeCount={0}
             onOpen={action('onOpen')}
@@ -423,6 +424,7 @@ const load = () => {
         <WrapRow key="18">
           <TlfTypeRow
             name="private"
+            path={Types.stringToPath('/keybase/private')}
             itemStyles={folderItemStyles}
             badgeCount={3}
             onOpen={action('onOpen')}
@@ -433,7 +435,11 @@ const load = () => {
         <WrapRow key="19">
           <TlfRow
             name="alice,bob,charlie"
+            path={Types.stringToPath('/keybase/private/alice,bob,charlie')}
             itemStyles={folderItemStyles}
+            needsRekey={false}
+            isIgnored={false}
+            isNew={true}
             isUserReset={false}
             resetParticipants={[]}
             onOpen={action('onOpen')}
@@ -444,7 +450,11 @@ const load = () => {
         <WrapRow key="20">
           <TlfRow
             name="alice,bob,charlie"
+            path={Types.stringToPath('/keybase/private/alice,bob,charlie')}
             itemStyles={folderItemStyles}
+            needsRekey={false}
+            isIgnored={false}
+            isNew={true}
             isUserReset={true}
             resetParticipants={['charlie']}
             onOpen={action('onOpen')}
@@ -455,7 +465,11 @@ const load = () => {
         <WrapRow key="21">
           <TlfRow
             name="alice,bob,charlie"
+            path={Types.stringToPath('/keybase/private/alice,bob,charlie')}
             itemStyles={folderItemStyles}
+            needsRekey={false}
+            isIgnored={false}
+            isNew={true}
             isUserReset={false}
             resetParticipants={['alice', 'bob']}
             onOpen={action('onOpen')}
@@ -466,7 +480,10 @@ const load = () => {
         <WrapRow key="22">
           <TlfRow
             name="alice,bob,charlie"
+            path={Types.stringToPath('/keybase/private/alice,bob,charlie')}
             itemStyles={folderItemStyles}
+            needsRekey={false}
+            isIgnored={false}
             isNew={true}
             isUserReset={false}
             resetParticipants={[]}
