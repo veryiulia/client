@@ -3,7 +3,7 @@ import * as I from 'immutable'
 import * as FsGen from '../../actions/fs-gen'
 import * as Types from '../../constants/types/fs'
 import * as Constants from '../../constants/fs'
-import {connect, type TypedState, type Dispatch} from '../../util/container'
+import {compose, connect, setDisplayName, type TypedState, type Dispatch} from '../../util/container'
 
 type OwnProps = {
   routePath: I.List<string>,
@@ -27,4 +27,7 @@ const mergeProps = ({_kbfsEnabled}, dispatchProps, ownProps) => ({
   ...ownProps,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps, mergeProps),
+  setDisplayName('ConnectedOpenHOC')
+)
