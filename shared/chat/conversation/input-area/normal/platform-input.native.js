@@ -21,7 +21,7 @@ import {
   NativeTouchableWithoutFeedback,
 } from '../../../../common-adapters/native-wrappers.native'
 import SetExplodingMessagePicker from '../../messages/set-explode-popup/container'
-import {ExplodingMeta} from './shared'
+import {ExplodingMeta, isTyping} from './shared'
 import type {PlatformInputProps} from './types'
 import flags from '../../../../util/feature-flags'
 import FilePickerPopup from '../filepicker-popup'
@@ -172,6 +172,11 @@ class PlatformInput extends Component<PlatformInputProps & OverlayParentProps, S
             visible={this.props.showingMenu}
           />
         )}
+        {this.props.typing.size > 0 && (
+          <Box style={styles.typing}>
+            <Text type="BodySmall">{isTyping(this.props.typing)}</Text>
+          </Box>
+        )}
         <Box style={styles.container}>
           {this.props.isEditing && (
             <Box style={styles.editingTabStyle}>
@@ -200,8 +205,6 @@ class PlatformInput extends Component<PlatformInputProps & OverlayParentProps, S
             rowsMax={3}
             rowsMin={1}
           />
-
-          {this.props.typing.size > 0 && <Typing />}
           <Action
             hasText={this.state.hasText}
             onSubmit={this._onSubmit}
@@ -234,12 +237,6 @@ const MentionHud = InputAccessory(props => (
 const ChannelMentionHud = InputAccessory(props => (
   <ConnectedChannelMentionHud style={styles.mentionHud} {...props} />
 ))
-
-const Typing = () => (
-  <Box style={styles.typing}>
-    <Icon type="icon-typing-24" style={iconCastPlatformStyles(styles.typingIcon)} />
-  </Box>
-)
 
 const Action = ({
   hasText,
@@ -370,17 +367,11 @@ const styles = styleSheetCreate({
   },
   typing: {
     ...globalStyles.flexBoxRow,
-    alignItems: 'center',
-    alignSelf: 'center',
-    borderRadius: 10,
-    height: 20,
-    justifyContent: 'center',
-    marginRight: globalMargins.tiny,
+    backgroundColor: globalColors.black_05,
+    paddingBottom: globalMargins.xtiny,
     paddingLeft: globalMargins.tiny,
     paddingRight: globalMargins.tiny,
-  },
-  typingIcon: {
-    width: 20,
+    paddingTop: globalMargins.xtiny,
   },
 })
 

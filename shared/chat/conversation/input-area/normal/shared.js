@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
-import {Meta} from '../../../../common-adapters'
+import * as I from 'immutable'
+import {Meta, Text} from '../../../../common-adapters'
 import {globalColors, platformStyles, styleSheetCreate} from '../../../../styles'
 import {formatDurationShort} from '../../../../util/timestamp'
 
@@ -24,6 +25,38 @@ export const ExplodingMeta = ({
       title={explodingModeSeconds === 0 ? 'New' : formatDurationShort(explodingModeSeconds * 1000)}
     />
   )
+}
+
+export const isTyping = (typing: I.Set<string>) => {
+  switch (typing.size) {
+    case 0:
+      return ''
+    case 1:
+      return [
+        <Text key={0} type="BodySmallSemibold">
+          {typing.first()}
+        </Text>,
+        ` is typing`,
+      ]
+    case 2:
+      return [
+        <Text key={0} type="BodySmallSemibold">
+          {typing.first()}
+        </Text>,
+        ` and `,
+        <Text key={1} type="BodySmallSemibold">
+          {typing.skip(1).first()}
+        </Text>,
+        ` are typing`,
+      ]
+    default:
+      return [
+        <Text key={0} type="BodySmallSemibold">
+          {typing.join(', ')}
+        </Text>,
+        ` are typing`,
+      ]
+  }
 }
 
 const styles = styleSheetCreate({

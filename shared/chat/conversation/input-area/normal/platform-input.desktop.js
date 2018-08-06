@@ -18,7 +18,7 @@ import ConnectedChannelMentionHud from '../channel-mention-hud/mention-hud-conta
 import flags from '../../../../util/feature-flags'
 import SetExplodingMessagePopup from '../../messages/set-explode-popup/container'
 import type {PlatformInputProps} from './types'
-import {ExplodingMeta} from './shared'
+import {ExplodingMeta, isTyping} from './shared'
 
 const MentionCatcher = ({onClick}) => (
   <Box
@@ -353,38 +353,6 @@ class PlatformInput extends Component<PlatformInputProps & OverlayParentProps, S
         </Box>
       </Box>
     )
-  }
-}
-
-const isTyping = typing => {
-  switch (typing.size) {
-    case 0:
-      return ''
-    case 1:
-      return [
-        <Text key={0} type="BodySmallSemibold">
-          {typing.first()}
-        </Text>,
-        ` is typing`,
-      ]
-    case 2:
-      return [
-        <Text key={0} type="BodySmallSemibold">
-          {typing.first()}
-        </Text>,
-        ` and `,
-        <Text key={1} type="BodySmallSemibold">
-          {typing.skip(1).first()}
-        </Text>,
-        ` are typing`,
-      ]
-    default:
-      return [
-        <Text key={0} type="BodySmallSemibold">
-          {typing.join(', ')}
-        </Text>,
-        ` are typing`,
-      ]
   }
 }
 
