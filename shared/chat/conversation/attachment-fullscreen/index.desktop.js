@@ -20,6 +20,7 @@ import {
   fileUIName,
   platformStyles,
 } from '../../../styles'
+import KeyHandler from '../../../util/key-handler.desktop'
 import type {Props} from './index.types'
 
 type State = {loaded: boolean}
@@ -92,7 +93,7 @@ class _Fullscreen extends React.Component<Props & OverlayParentProps, State> {
     )
   }
 }
-const Fullscreen = OverlayParentHOC(_Fullscreen)
+const Fullscreen = KeyHandler(OverlayParentHOC(_Fullscreen))
 
 const linkStyle = platformStyles({
   isElectron: {color: globalColors.black_60, cursor: 'pointer'},
