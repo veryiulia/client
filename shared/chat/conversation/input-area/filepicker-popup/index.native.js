@@ -7,13 +7,15 @@ import {isIOS} from '../../../../constants/platform'
 
 const Prompt = () => (
   <Box2 direction="horizontal" fullWidth={true} gap="xtiny" style={promptContainerStyle}>
-    <Text type="BodySmallSemibold">Select Attachment Type</Text>
+    <Text type="BodySmallSemibold">Select attachment type</Text>
   </Box2>
 )
 
 const promptContainerStyle = {
   alignItems: 'center',
   justifyContent: 'center',
+  paddingBottom: 24,
+  paddingTop: 24,
 }
 
 class FilePickerPopup extends React.Component<Props> {
@@ -22,15 +24,15 @@ class FilePickerPopup extends React.Component<Props> {
       ? [
           {
             onClick: () => {
-              this.props.onSelect('photo', 'camera')
+              this.props.onSelect('mixed', 'camera')
             },
-            title: 'Take Photo',
+            title: 'Take Photo or Video',
           },
           {
             onClick: () => {
               this.props.onSelect('mixed', 'library')
             },
-            title: 'Photo or Video from Library',
+            title: 'Choose from Library',
           },
         ]
       : [

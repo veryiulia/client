@@ -395,11 +395,12 @@ func (o UIChannelNameMention) DeepCopy() UIChannelNameMention {
 }
 
 type UIAssetUrlInfo struct {
-	PreviewUrl    string  `codec:"previewUrl" json:"previewUrl"`
-	FullUrl       string  `codec:"fullUrl" json:"fullUrl"`
-	FullUrlCached bool    `codec:"fullUrlCached" json:"fullUrlCached"`
-	MimeType      string  `codec:"mimeType" json:"mimeType"`
-	VideoDuration *string `codec:"videoDuration,omitempty" json:"videoDuration,omitempty"`
+	PreviewUrl          string  `codec:"previewUrl" json:"previewUrl"`
+	FullUrl             string  `codec:"fullUrl" json:"fullUrl"`
+	FullUrlCached       bool    `codec:"fullUrlCached" json:"fullUrlCached"`
+	MimeType            string  `codec:"mimeType" json:"mimeType"`
+	VideoDuration       *string `codec:"videoDuration,omitempty" json:"videoDuration,omitempty"`
+	InlineVideoPlayable bool    `codec:"inlineVideoPlayable" json:"inlineVideoPlayable"`
 }
 
 func (o UIAssetUrlInfo) DeepCopy() UIAssetUrlInfo {
@@ -415,6 +416,7 @@ func (o UIAssetUrlInfo) DeepCopy() UIAssetUrlInfo {
 			tmp := (*x)
 			return &tmp
 		})(o.VideoDuration),
+		InlineVideoPlayable: o.InlineVideoPlayable,
 	}
 }
 
@@ -515,6 +517,8 @@ type UIMessageOutbox struct {
 	Body        string          `codec:"body" json:"body"`
 	Ctime       gregor1.Time    `codec:"ctime" json:"ctime"`
 	Ordinal     float64         `codec:"ordinal" json:"ordinal"`
+	Filename    string          `codec:"filename" json:"filename"`
+	Title       string          `codec:"title" json:"title"`
 	Preview     *MakePreviewRes `codec:"preview,omitempty" json:"preview,omitempty"`
 }
 
@@ -526,6 +530,8 @@ func (o UIMessageOutbox) DeepCopy() UIMessageOutbox {
 		Body:        o.Body,
 		Ctime:       o.Ctime.DeepCopy(),
 		Ordinal:     o.Ordinal,
+		Filename:    o.Filename,
+		Title:       o.Title,
 		Preview: (func(x *MakePreviewRes) *MakePreviewRes {
 			if x == nil {
 				return nil

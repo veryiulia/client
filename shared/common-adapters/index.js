@@ -2,7 +2,7 @@
 import * as React from 'react'
 import Box from './box'
 import PopupDialog from './popup-dialog'
-import {connect, type Dispatch} from '../util/container'
+import {connect} from '../util/container'
 import {collapseStyles, globalColors, isMobile} from '../styles'
 
 const MaybePopup = isMobile
@@ -31,9 +31,13 @@ const MaybePopup = isMobile
     )
 
 // TODO properly type this
-const DispatchNavUpHoc: any = connect(undefined, (dispatch: Dispatch, {navigateUp}) => ({
-  connectedNavigateUp: () => dispatch(navigateUp()),
-}))
+const DispatchNavUpHoc: any = connect(
+  () => ({}),
+  (dispatch, {navigateUp}) => ({
+    connectedNavigateUp: () => dispatch(navigateUp()),
+  }),
+  (s, d, o) => ({...o, ...s, ...d})
+)
 
 // TODO properly type this
 const _MaybePopupHoc: any = (cover: boolean) => {
@@ -65,7 +69,7 @@ const _styleContainer = {
 
 export {default as Avatar, castPlatformStyles as avatarCastPlatformStyles} from './avatar'
 export {default as BackButton} from './back-button'
-export {Badge, Badge2} from './badge'
+export {default as Badge} from './badge'
 export {default as Banner} from './banner'
 export {Box, Box2} from './box'
 export {default as ButtonBar} from './button-bar'
@@ -120,6 +124,7 @@ export {default as StandardScreen} from './standard-screen'
 export {default as TabBar} from './tab-bar'
 export {default as Tabs} from './tabs'
 export {default as Text} from './text'
+export {default as Toast} from './toast'
 export {default as TimelineMarker} from './timeline-marker'
 export {default as UserBio} from './user-bio'
 export {default as UserCard} from './user-card'

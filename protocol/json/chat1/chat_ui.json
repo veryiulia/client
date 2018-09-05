@@ -433,6 +433,10 @@
             "string"
           ],
           "name": "videoDuration"
+        },
+        {
+          "type": "boolean",
+          "name": "inlineVideoPlayable"
         }
       ]
     },
@@ -563,6 +567,14 @@
         {
           "type": "double",
           "name": "ordinal"
+        },
+        {
+          "type": "string",
+          "name": "filename"
+        },
+        {
+          "type": "string",
+          "name": "title"
         },
         {
           "type": [

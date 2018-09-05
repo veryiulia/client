@@ -109,7 +109,11 @@ func (res *ResolveResult) GetDeleted() bool {
 
 func (res ResolveResult) FailOnDeleted() ResolveResult {
 	if res.deleted {
-		res.err = UserDeletedError{Msg: fmt.Sprintf("user %q deleted", res.uid)}
+		label := res.uid.String()
+		if res.resolvedKbUsername != "" {
+			label = res.resolvedKbUsername
+		}
+		res.err = UserDeletedError{Msg: fmt.Sprintf("user %q deleted", label)}
 	}
 	return res
 }
@@ -542,8 +546,8 @@ func (r *ResolverImpl) putToMemCache(m MetaContext, key string, res ResolveResul
 	r.cache.Set(key, &res)
 }
 
-func (r *ResolverImpl) PurgeResolveCache(m MetaContext, input string) error {
-	var expr AssertionExpression
+func (r *ResolverImpl) PurgeResolveCache(m MetaContext, input string) (err error) {
+	defer m.CTrace(fmt.Sprintf("Resolver#PurgeResolveCache(input = %q)", input), func() error { return err })()
 	expr, err := AssertionParseAndOnly(m.G().MakeAssertionContext(), input)
 	if err != nil {
 		return err
