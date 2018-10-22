@@ -134,12 +134,16 @@
       "name": "Email",
       "fields": [
         {
-          "type": "string",
+          "type": "EmailAddress",
           "name": "email"
         },
         {
           "type": "boolean",
           "name": "isVerified"
+        },
+        {
+          "type": "boolean",
+          "name": "isPrimary"
         }
       ]
     },
@@ -276,6 +280,12 @@
           "name": "res"
         }
       ]
+    },
+    {
+      "type": "record",
+      "name": "EmailAddress",
+      "fields": [],
+      "typedef": "string"
     }
   ],
   "messages": {

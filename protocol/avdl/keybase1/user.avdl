@@ -42,8 +42,9 @@ protocol user {
   }
 
   record Email {
-    string email;
+    EmailAddress email;
     boolean isVerified;
+    boolean isPrimary;
   }
 
   record UserSettings {
@@ -176,4 +177,7 @@ protocol user {
   */
   NextMerkleRootRes findNextMerkleRootAfterReset(UID uid, Seqno resetSeqno, ResetMerkleRoot prev);
 
+  // Phone number in E.164 format.
+  @typedef("string")
+  record EmailAddress {}
 }
