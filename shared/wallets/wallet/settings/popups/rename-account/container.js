@@ -41,12 +41,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 })
 
 export default compose(
-  withStateHandlers(
-    {name: null},
-    {
-      onNameChange: () => name => ({name}),
-    }
-  ),
+  withStateHandlers(({initialName}) => ({name: initialName}), {
+    onNameChange: () => name => ({name}),
+  }),
   connect(
     mapStateToProps,
     mapDispatchToProps,
