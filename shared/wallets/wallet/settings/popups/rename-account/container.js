@@ -35,15 +35,22 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...stateProps,
   error: capitalize(stateProps.error),
   onCancel: dispatchProps.onCancel,
-  onChangeAccountName: () => dispatchProps._onChangeAccountName(stateProps.accountID, ownProps.name),
+  onChangeAccountName: () =>
+    dispatchProps._onChangeAccountName(
+      stateProps.accountID,
+      ownProps.name === null ? ownProps.initialName : ownProps.name
+    ),
   onClearErrors: dispatchProps.onClearErrors,
   onDone: () => dispatchProps._onDone(ownProps.name),
 })
 
 export default compose(
-  withStateHandlers(({initialName}) => ({name: initialName}), {
-    onNameChange: () => name => ({name}),
-  }),
+  withStateHandlers(
+    {name: null},
+    {
+      onNameChange: () => name => ({name}),
+    }
+  ),
   connect(
     mapStateToProps,
     mapDispatchToProps,
