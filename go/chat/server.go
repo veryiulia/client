@@ -512,6 +512,11 @@ func (h *Server) mergeLocalRemoteThread(ctx context.Context, remoteThread, local
 		if !oldMsg.IsValid() || !newMsg.IsValid() {
 			return true
 		}
+		// If the old message was a pending message, send up the new one regardless of current state
+		// since its pending state may have changed
+		if oldMsg.IsPending() {
+			return true
+		}
 		// If newMsg is now superseded by something different than what we sent, then let's include it
 		if newMsg.Valid().ServerHeader.SupersededBy != oldMsg.Valid().ServerHeader.SupersededBy {
 			h.Debug(ctx, "mergeLocalRemoteThread: including supersededBy change: msgID: %d",

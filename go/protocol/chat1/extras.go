@@ -380,6 +380,14 @@ func (m MessageUnboxed) IsVisible() bool {
 	return false
 }
 
+func (m MessageUnboxed) IsPending() bool {
+	typ, err := m.State()
+	if err != nil {
+		return false
+	}
+	return typ == MessageUnboxedState_OUTBOX
+}
+
 func (m MessageUnboxed) SearchableText() string {
 	if !m.IsValidFull() {
 		return ""
