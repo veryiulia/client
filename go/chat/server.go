@@ -11,7 +11,6 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
-	"sort"
 	"strconv"
 	"sync"
 	"time"
@@ -487,6 +486,17 @@ func (h *Server) mergeLocalRemoteThread(ctx context.Context, remoteThread, local
 		for _, m := range res.Messages {
 			rm[m.GetMessageID()] = true
 		}
+		insertPlaceholder := func(msgID chat1.MessageID) {
+			ph := utils.CreateHiddenPlaceholder(msgID)
+			for index, m := range res.Messages {
+				if msgID >= m.GetMessageID() {
+					res.Messages = append(res.Messages[:index],
+						append([]chat1.MessageUnboxed{ph}, res.Messages[index:]...)...)
+					return
+				}
+			}
+
+		}
 		// Check for any stray placeholders in the local thread we sent, and set them to some
 		// undisplayable type
 		for _, m := range localThread.Messages {
@@ -497,10 +507,9 @@ func (h *Server) mergeLocalRemoteThread(ctx context.Context, remoteThread, local
 			if state == chat1.MessageUnboxedState_PLACEHOLDER && !rm[m.GetMessageID()] {
 				h.Debug(ctx, "mergeLocalRemoteThread: subbing in dead placeholder: msgID: %d",
 					m.GetMessageID())
-				res.Messages = append(res.Messages, utils.CreateHiddenPlaceholder(m.GetMessageID()))
+				insertPlaceholder(m.GetMessageID())
 			}
 		}
-		sort.Sort(utils.ByMsgUnboxedMsgID(res.Messages))
 	}()
 
 	shouldAppend := func(newMsg chat1.MessageUnboxed, oldMsgs map[chat1.MessageID]chat1.MessageUnboxed) bool {
